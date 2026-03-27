@@ -1,0 +1,4 @@
+project_id       = "my-gcp-project"
+region           = "us-central1"
+bucket_name      = "my-org-pii-data"
+data_description = "customer_pii_records"
