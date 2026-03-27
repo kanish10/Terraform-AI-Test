@@ -1,0 +1,93 @@
+# =============================================================================
+# Required Variables
+# =============================================================================
+
+project_id = "my-gcp-project-id"
+
+# =============================================================================
+# Optional Overrides
+# =============================================================================
+
+region      = "us-central1"
+environment = "production"
+
+# =============================================================================
+# Networking
+# =============================================================================
+
+vpc_name                                  = "composer-vpc"
+subnet_cidr                               = "10.0.0.0/20"
+pods_secondary_cidr                       = "10.4.0.0/14"
+services_secondary_cidr                   = "10.8.0.0/20"
+master_ipv4_cidr_block                    = "172.16.0.0/28"
+cloud_sql_ipv4_cidr_block                 = "10.10.0.0/24"
+cloud_composer_network_ipv4_cidr_block    = "172.31.245.0/24"
+
+# Web server IP allowlisting (empty = fully restricted)
+web_server_allowed_ip_ranges = [
+  {
+    value       = "10.0.0.0/8"
+    description = "Internal VPC range"
+  },
+]
+
+# =============================================================================
+# Cloud Composer
+# =============================================================================
+
+composer_env_name         = "composer-prod"
+composer_image_version    = "composer-2.16.8-airflow-2.10.5" # Pin for production
+composer_environment_size = "ENVIRONMENT_SIZE_SMALL"
+composer_resilience_mode  = "STANDARD_RESILIENCE"
+
+# =============================================================================
+# Workload Configuration
+# =============================================================================
+
+# Scheduler
+scheduler_cpu        = 2
+scheduler_memory_gb  = 7.5
+scheduler_storage_gb = 5
+scheduler_count      = 2
+
+# Workers (auto-scaled between min and max)
+worker_cpu        = 2
+worker_memory_gb  = 7.5
+worker_storage_gb = 5
+worker_min_count  = 2
+worker_max_count  = 6
+
+# Web Server
+web_server_cpu        = 2
+web_server_memory_gb  = 7.5
+web_server_storage_gb = 5
+
+# Triggerer
+triggerer_cpu       = 1
+triggerer_memory_gb = 1
+triggerer_count     = 1
+
+# =============================================================================
+# KMS (CMEK)
+# =============================================================================
+
+kms_keyring_name        = "composer-keyring"
+kms_key_name            = "composer-cmek-key"
+kms_key_rotation_period = "7776000s" # 90 days
+
+# =============================================================================
+# Maintenance Window (Sunday 00:00-04:00 UTC)
+# =============================================================================
+
+maintenance_window_start      = "2026-01-01T00:00:00Z"
+maintenance_window_end        = "2026-01-01T04:00:00Z"
+maintenance_window_recurrence = "FREQ=WEEKLY;BYDAY=SU"
+
+# =============================================================================
+# Labels
+# =============================================================================
+
+labels = {
+  team        = "data-engineering"
+  cost_center = "12345"
+}
